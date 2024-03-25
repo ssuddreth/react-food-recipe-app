@@ -5,7 +5,7 @@ import RecipeItem from "../../components/recipe-item/recipe-item-index";
 
 export default function Home() {
 
-    const {recipeList, loading} = useContext(GlobalContext);
+    const {recipeList, loading } = useContext(GlobalContext);
 
     if (loading) return <div>Loading...</div>
 

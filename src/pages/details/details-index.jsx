@@ -6,7 +6,7 @@ import { GlobalContext } from "../../context/context-index";
 export default function Details() {
 
     const { id } = useParams();
-    const { recipeDetailsData, setRecipeDetailsData } = useContext(GlobalContext);
+    const { recipeDetailsData, setRecipeDetailsData, hanldeAddToFavorite, favoritesList, } = useContext(GlobalContext);
 
     useEffect(() => {
         async function getRecipeDetails() {
@@ -31,10 +31,26 @@ export default function Details() {
                 <h3 className="font-bold text-2xl truncate text-black">{recipeDetailsData?.recipe?.title}</h3>
                 <div>
                     <button
+                        onClick={() => hanldeAddToFavorite(recipeDetailsData?.recipe)}
                         className="p-3 px-8 rounded-lg text-sm uppercase font-medium tracking-wider mt-3 inline-block shadow-md bg-black text-white"
                     >
-                        Save to Favorites
+                        {favoritesList && favoritesList.length > 0 && favoritesList.findIndex(
+                            (item) => item.id === recipeDetailsData?.recipe?.id
+                        ) !== -1
+                            ? "Remove From Favorites"
+                            : "Add To Favorites"}
                     </button>
+                </div>
+                <div>
+                    <span className="text-2xl font-semibold text-black mt-1">Ingredients:</span>
+                    <ul className="flex flex-col gap-3 mt-1">
+                        {recipeDetailsData?.recipe?.ingredients.map((ingredient) => (
+                            <li>
+                                <span className="text-2xl font-normal text-black">{ingredient.quantity} {ingredient.unit}</span>
+                                <span className="text-2xl font-normal text-black">{ingredient.description}</span>
+                            </li>
+                        ))}
+                    </ul>
                 </div>
             </div>
         </div>
